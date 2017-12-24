@@ -1,3 +1,0 @@
-allow zygote self:capability sys_nice;
-allow zygote system_server:binder { call transfer };
-allow zygote input_device:dir read;

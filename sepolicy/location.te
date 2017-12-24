@@ -1,2 +1,2 @@
 allow location sysfs_wake_lock:file { write open };
-allow location self:capability { net_raw };
+allow location diag_device:chr_file { read write };

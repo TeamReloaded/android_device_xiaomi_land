@@ -1,13 +1,2 @@
-allow init logd:dir getattr;
-allow init block_device:blk_file relabelto;
-allow init dip_device:blk_file relabelfrom;
-allow init mdtp_device:blk_file relabelfrom;
-allow init misc_partition:blk_file relabelfrom;
-allow init modem_efs_partition_device:blk_file relabelfrom;
-allow init property_socket:sock_file write;
-allow init servicemanager:binder call;
-allow init socket_device:sock_file { create setattr };
-allow init ssd_device:blk_file relabelfrom;
-allow init tee_device:chr_file { write ioctl };
-
-allow init debugfs:file write;
+allow init fingerprintd:binder { transfer call };
+allow init gx_fpd_device:chr_file { write ioctl };
