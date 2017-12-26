@@ -1,0 +1,2 @@
+allow healthd unlabeled:dir { search };
+allow healthd unlabeled:file { open read write };

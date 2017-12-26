@@ -1,1 +1,2 @@
 allow platform_app app_data_file:file { execute };
+allow platform_app device:chr_file { ioctl read write };

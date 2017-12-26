@@ -1,0 +1,2 @@
+allow toolbox init:fifo_file { getattr write };
+allow toolbox sysfs:file { open read };

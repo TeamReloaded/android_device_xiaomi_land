@@ -1,2 +1,4 @@
-allow priv_app device:dir { read open };
-allow priv_app rfs_system_file:dir getattr;
+allow priv_app rfs_system_file:dir { getattr };
+allow priv_app device:chr_file { ioctl open read write };
+allow priv_app device:dir { open read };
+allow priv_app proc_interrupts:file { open read };
