@@ -1,0 +1,4 @@
+allow untrusted_app_25 apk_data_file:file { setattr };
+allow untrusted_app_25 device:chr_file { ioctl open read write };
+allow untrusted_app_25 proc:file { getattr open read };
+allow untrusted_app_25 sysfs:dir { open read };

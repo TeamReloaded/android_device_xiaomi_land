@@ -1,0 +1,5 @@
+allow rild device:chr_file { ioctl open read write };
+allow rild rild:socket { ioctl };
+allow rild socket_device:sock_file { write };
+allow rild system_data_file:file { getattr lock write };
+allow rild vndbinder_device:chr_file { open read write };

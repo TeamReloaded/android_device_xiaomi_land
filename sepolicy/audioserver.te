@@ -1,0 +1,1 @@
+allow audioserver init:binder { call };
