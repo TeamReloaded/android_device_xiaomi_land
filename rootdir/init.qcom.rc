@@ -25,8 +25,7 @@
 # ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
 
-import /vendor/etc/init/hw/init.qcom.power.rc
-import /vendor/etc/init/hw/init.qcom.usb.rc
+import /system/vendor/etc/init/hw/init.qcom.usb.rc
 
 
 on early-init
@@ -150,8 +149,8 @@ on post-fs-data
     chown dhcp dhcp /data/misc/dhcp
 
     #create port-bridge log dir
-    mkdir /data/misc/port_bridge 0770 radio radio
-    chmod 0770 /data/misc/port_bridge
+    mkdir /data/vendor/port_bridge 0770 radio radio
+    chmod 0770 /data/vendor/port_bridge
 
     #create netmgr log dir
     mkdir /data/vendor/netmgr 0770 radio radio
@@ -185,6 +184,7 @@ on post-fs-data
     # We chown/chmod /persist again so because mount is run as root + defaults
     chown root system /persist
     chmod 0771 /persist
+    chown system system /persist/WCNSS_qcom_wlan_nv.bin
     chmod 0664 /sys/devices/platform/msm_sdcc.1/polling
     chmod 0664 /sys/devices/platform/msm_sdcc.2/polling
     chmod 0664 /sys/devices/platform/msm_sdcc.3/polling
@@ -212,8 +212,8 @@ on post-fs-data
     #Create directory for hostapd
     mkdir /data/hostapd 0770 system wifi
 
-    # Create /data/vendor/time folder for time-services
-    mkdir /data/vendor/time/ 0700 system system
+    # Create /data/time folder for time-services
+    mkdir /data/time/ 0700 system system
 
     mkdir /data/vendor/audio/ 0770 media audio
 
@@ -248,7 +248,6 @@ on post-fs-data
     chown radio radio /data/vendor/radio/qcril_prebuilt.db
     chmod 0660 /data/vendor/radio/qcril_prebuilt.db
     # File flags for prebuilt ril db file
-    write /data/misc/radio/prebuilt_db_support 1
     write /data/vendor/radio/prebuilt_db_support 1
     chown radio radio /data/vendor/radio/prebuilt_db_support
     chmod 0400 /data/vendor/radio/prebuilt_db_support
@@ -428,6 +427,24 @@ on boot
 
     # Wifi firmware reload path
     chown wifi wifi /sys/module/wlan/parameters/fwpath
+    
+    # Add a cpuset for the camera daemon
+    # we want all cores for camera
+    mkdir /dev/cpuset/camera-daemon
+    write /dev/cpuset/camera-daemon/cpus 0-7
+    write /dev/cpuset/camera-daemon/mems 0
+    chown system system /dev/cpuset/camera-daemon
+    chown system system /dev/cpuset/camera-daemon/tasks
+    chmod 0664 /dev/cpuset/camera-daemon/tasks
+
+    # Update foreground and background cpusets
+    # Reserve CPU 7 for the top app
+    write /dev/cpuset/foreground/cpus 0-6
+    write /dev/cpuset/foreground/boost/cpus 0-3
+    write /dev/cpuset/background/cpus 4-6
+    write /dev/cpuset/system-background/cpus 4-6
+    write /dev/cpuset/top-app/cpus 0-7
+    write /dev/cpuset/camera-daemon/cpus 4-7
 
 on class_start:late_start
     write /proc/sys/net/ipv6/conf/default/accept_ra_defrtr 1
@@ -451,6 +468,7 @@ on property:sys.boot_completed=1
     #WDSP FW boot sysfs node used by STHAL
     chown media audio /sys/kernel/wdsp0/boot
     chown media audio /sys/kernel/wcd_cpe0/fw_na
+    setprop sys.io.scheduler maple
 
 #bug156417 zhaoqf_sh add Allow usb charging to be disabled peristently
 on property:persist.sys.chgdisabled=1
@@ -585,15 +603,24 @@ service loc_launcher /system/vendor/bin/loc_launcher
     group gps inet diag wifi
     writepid /dev/cpuset/system-background/tasks
 
-service qcom-sh /vendor/bin/init.qcom.sh
+service qcom-sh /system/vendor/bin/init.qcom.sh
     class late_start
     user root
+    oneshot
+
+service qcom-post-boot /system/vendor/bin/init.qcom.post_boot.sh
+    class late_start
+    user root
+    disabled
     oneshot
 
 service qvop-daemon /vendor/bin/qvop-daemon
     class late_start
     user system
     group system drmrpc
+
+on property:sys.boot_completed=1
+    start qcom-post-boot
 
 service ril-daemon2 /vendor/bin/hw/rild -c 2
     class main
@@ -621,8 +648,8 @@ on property:persist.radio.otaconfig=0
     setprop persist.radio.start_ota_daemon 0
 on property:persist.radio.otaconfig=1
     setprop persist.radio.start_ota_daemon 1
-
-service vendor.msm_irqbalance /vendor/bin/msm_irqbalance -f /system/vendor/etc/msm_irqbalance.conf
+    
+service vendor.msm_irqbalance /system/vendor/bin/msm_irqbalance -f /system/vendor/etc/msm_irqbalance.conf
      class core
      user root
      group root
@@ -780,8 +807,8 @@ on charger
     mount ext4 /dev/block/bootdevice/by-name/system /system ro barrier=1
     load_all_props
     setprop persist.sys.usb.config mass_storage
-    setprop persist.sys.usb.config mass_storage
     start hvdcp_opti
+    start qcom-post-boot
 
 service adsprpcd /system/vendor/bin/adsprpcd
     class main
