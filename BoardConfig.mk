@@ -118,6 +118,7 @@ WITH_LINEAGE_CHARGER := false
 BOARD_USES_LINEAGE_HARDWARE := true
 BOARD_HARDWARE_CLASS += \
 hardware/lineage/lineagehw \
+$(DEVICE_PATH)/lineagehw
 
 # Media
 TARGET_USES_MEDIA_EXTENSIONS := true
