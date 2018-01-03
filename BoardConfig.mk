@@ -243,5 +243,3 @@ BOARD_GLOBAL_CFLAGS += -DBATTERY_REAL_INFO
 # Inherit the proprietary files
 -include vendor/xiaomi/land/BoardConfigVendor.mk
 
-# Allow missing dependencies
-ALLOW_MISSING_DEPENDENCIES=true
