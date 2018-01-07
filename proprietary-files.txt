@@ -983,5 +983,5 @@ etc/ft5336_biel_720p.ini
 etc/ft5336_lens_720p.ini
 etc/ft5336_oufei_720p.ini
 
-# Wi-Fi - from santoni (Redmi 4)
-bin/wcnss_service|397872f137e1f9a81f52f4fd0a8df9d93eef2320
+# Wi-Fi - from tissot (Mi A1)
+vendor/bin/wcnss_service|828ff8b29fcc6a59644a7b9baf02f29eafe034a8
