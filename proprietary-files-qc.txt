@@ -142,14 +142,6 @@ vendor/lib64/libssd.so|2a07064578f0b8dde52d755b44227f354af15c77
 vendor/lib/hw/gatekeeper.msm8953.so:vendor/lib/hw/gatekeeper.msm8937.so|ac555627694d57b1dd79b4ddf3faec2e9174967f
 vendor/lib64/hw/gatekeeper.msm8953.so:vendor/lib64/hw/gatekeeper.msm8937.so|285d7f197ee11a5eac1b1e333f7dfe8684087859
 
-# FM - from tissot (Mi A1)
--lib/vendor.qti.hardware.fm@1.0.so
--lib64/vendor.qti.hardware.fm@1.0.so
-vendor/lib/hw/vendor.qti.hardware.fm@1.0-impl.so
-vendor/lib/vendor.qti.hardware.fm@1.0_vendor.so
-vendor/lib64/hw/vendor.qti.hardware.fm@1.0-impl.so
-vendor/lib64/vendor.qti.hardware.fm@1.0_vendor.so
-
 # GPS - from msm8996
 lib/vendor.qti.gnss@1.0.so|8fb1b90a7a07ca18822f075fc8b1a62526c55c0c
 lib64/vendor.qti.gnss@1.0.so|f1b161f283b4d0c2b789c20624f9ef91c8ffb0fa

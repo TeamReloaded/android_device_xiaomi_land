@@ -112,16 +112,11 @@ TARGET_TS_MAKEUP := true
 # Charger
 BOARD_CHARGER_ENABLE_SUSPEND := true
 BOARD_CHARGER_DISABLE_INIT_BLANK := true
-WITH_LINEAGE_CHARGER := false
 
-# Lineage Hardware
-BOARD_USES_LINEAGE_HARDWARE := true
+# CMHW
+BOARD_USES_CYANOGEN_HARDWARE := true
 BOARD_HARDWARE_CLASS += \
-hardware/lineage/lineagehw \
-$(DEVICE_PATH)/lineagehw
-
-# Media
-TARGET_USES_MEDIA_EXTENSIONS := true
+    hardware/cyanogen/cmhw
 
 # CNE / DPM
 BOARD_USES_QCNE := true
@@ -242,4 +237,3 @@ BOARD_GLOBAL_CFLAGS += -DBATTERY_REAL_INFO
 
 # Inherit the proprietary files
 -include vendor/xiaomi/land/BoardConfigVendor.mk
-
