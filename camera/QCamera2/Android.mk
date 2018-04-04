@@ -11,6 +11,7 @@ LOCAL_SRC_FILES := \
         util/QCameraFlash.cpp \
         util/QCameraPerf.cpp \
         util/QCameraQueue.cpp \
+        util/QCameraDisplay.cpp \
         QCamera2Hal.cpp \
         QCamera2Factory.cpp
 
@@ -50,6 +51,13 @@ LOCAL_CFLAGS += -DHAS_MULTIMEDIA_HINTS -D_ANDROID
 #use media extension
 ifeq ($(TARGET_USES_MEDIA_EXTENSIONS), true)
 LOCAL_CFLAGS += -DUSE_MEDIA_EXTENSIONS
+endif
+
+#USE_DISPLAY_SERVICE from Android O onwards
+#to receive vsync event from display
+ifeq ($(filter OMR1 O 8.1.0, $(PLATFORM_VERSION)), )
+USE_DISPLAY_SERVICE := true
+LOCAL_CFLAGS += -DUSE_DISPLAY_SERVICE
 endif
 
 #HAL 1.0 Flags
@@ -100,6 +108,7 @@ LOCAL_SHARED_LIBRARIES += libmmcamera_interface libmmjpeg_interface libui libcam
 LOCAL_SHARED_LIBRARIES += libqdMetaData libqservice libbinder
 ifeq ($(USE_DISPLAY_SERVICE),true)
 LOCAL_SHARED_LIBRARIES += android.frameworks.displayservice@1.0 libhidlbase libhidltransport
+LOCAL_SHARED_LIBRARIES += android.frameworks.displayservice@1.0 android.hidl.base@1.0 libhidlbase
 else
 LOCAL_SHARED_LIBRARIES += libgui
 endif
