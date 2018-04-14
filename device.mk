@@ -329,6 +329,15 @@ PRODUCT_PACKAGES += \
     init.qcom.post_boot.sh \
     ueventd.qcom.rc
 
+# Perf configuration
+PRODUCT_COPY_FILES += \
+   $(LOCAL_PATH)/configs/powerhint.xml:system/vendor/etc/powerhint.xml \
+
+# Power
+PRODUCT_PACKAGES += \
+    power.msm8937 \
+    android.hardware.power@1.0-service.land
+
 # RCS
 PRODUCT_PACKAGES += \
     rcs_service_aidl \
